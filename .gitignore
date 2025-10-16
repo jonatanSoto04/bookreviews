@@ -1,0 +1,20 @@
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# .NET
+bin/
+obj/
+*.user
+*.db
+*.log
+appsettings.Development.json
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Env
+.env

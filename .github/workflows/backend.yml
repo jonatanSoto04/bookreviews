@@ -1,0 +1,46 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: ["main", "dev"]
+  pull_request:
+    branches: ["main", "dev"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/BookReviewAPI
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # Ajusta según la versión que uses
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Aquí depende de dónde hospedes tu backend
+      # Por ejemplo, si usas Render, Railway o Azure,
+      # se puede agregar un paso de despliegue como:
+      # - name: Deploy to Render
+      #   run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}

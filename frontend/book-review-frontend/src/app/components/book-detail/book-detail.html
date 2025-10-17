@@ -1,0 +1,37 @@
+<div class="book-detail" *ngIf="book">
+  <div class="book-header">
+    <div class="book-cover-large">
+      <img [src]="book.coverImageUrl || 'assets/default-book-cover.jpg'" [alt]="book.title">
+    </div>
+    <div class="book-info">
+      <h1 class="book-title">{{book.title}}</h1>
+      <p class="book-author">por {{book.author}}</p>
+      <p class="book-category">{{book.category}}</p>
+
+      <div class="book-meta">
+        <div class="meta-item">
+          <i class="fas fa-star"></i>
+          <span>{{book.averageRating != null ? book.averageRating.toFixed(1) : '—'}} ({{book.reviewCount}} reseñas)</span>
+        </div>
+        <div class="meta-item">
+          <i class="fas fa-calendar"></i>
+          <span>Publicado: {{book.publishedDate | date:'mediumDate'}}</span>
+        </div>
+        <div class="meta-item">
+          <i class="fas fa-file"></i>
+          <span>{{book.pageCount}} páginas</span>
+        </div>
+        <div class="meta-item">
+          <i class="fas fa-barcode"></i>
+          <span>ISBN: {{book.isbn}}</span>
+        </div>
+      </div>
+
+      <div class="book-description">
+        <h3>Descripción</h3>
+        <p>{{book.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+

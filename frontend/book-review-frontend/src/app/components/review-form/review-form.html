@@ -1,0 +1,43 @@
+<div class="review-form">
+  <h3>Dejar una Reseña</h3>
+  <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label class="form-label">Calificación</label>
+      <div class="rating-input">
+        <button
+          type="button"
+          *ngFor="let star of [1,2,3,4,5]"
+          class="star-btn"
+          [class.active]="star <= selectedRating"
+          (click)="setRating(star)"
+        >
+          <i class="fas fa-star"></i>
+        </button>
+        <span class="rating-text">{{selectedRating}}/5 estrellas</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Comentario</label>
+      <textarea
+        class="form-control"
+        formControlName="comment"
+        rows="4"
+        placeholder="Comparte tu opinión sobre este libro..."
+      ></textarea>
+      <div class="error" *ngIf="reviewForm.get('comment')?.invalid && reviewForm.get('comment')?.touched">
+        El comentario es requerido
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="!reviewForm.valid || !selectedRating"
+    >
+      <i class="fas fa-paper-plane"></i>
+      Enviar Reseña
+    </button>
+  </form>
+</div>
+

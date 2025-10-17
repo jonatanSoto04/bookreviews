@@ -1,0 +1,63 @@
+<div class="book-page">
+  <div class="container">
+    <div class="page-content">
+      <!-- Book Detail -->
+      <app-book-detail [book]="book" *ngIf="book"></app-book-detail>
+
+      <!-- Reviews Section -->
+      <div class="reviews-section" *ngIf="book">
+        <div class="section-header">
+          <h2>Reseñas ({{book.reviews.length}})</h2>
+        </div>
+
+        <!-- Review Form (only for authenticated users) -->
+        <app-review-form
+          *ngIf="isAuthenticated()"
+          [bookId]="book.id"
+          (reviewSubmitted)="onReviewSubmitted($event)"
+        ></app-review-form>
+
+        <!-- Reviews List -->
+        <div class="reviews-list">
+          <div class="review-card" *ngFor="let review of book.reviews">
+            <div class="review-header">
+              <div class="reviewer-info">
+                <strong>{{review.userName}}</strong>
+                <span class="review-date">{{review.createdAt | date:'mediumDate'}}</span>
+              </div>
+              <div class="review-rating">
+                <span class="rating-stars">
+                  <i class="fas fa-star" *ngFor="let star of getStars(review.rating)"></i>
+                </span>
+                <span class="rating-value">{{review.rating}}/5</span>
+              </div>
+            </div>
+            <p class="review-comment">{{review.comment}}</p>
+          </div>
+
+          <div class="no-reviews" *ngIf="book.reviews.length === 0">
+            <i class="fas fa-comment-slash fa-2x"></i>
+            <p>No hay reseñas para este libro todavía.</p>
+            <p *ngIf="!isAuthenticated()">
+              <a routerLink="/login">Inicia sesión</a> para ser el primero en reseñar.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Cargando libro...</p>
+      </div>
+
+      <!-- Error -->
+      <div class="error" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>Error al cargar el libro</h3>
+        <p>{{errorMessage}}</p>
+        <button class="btn btn-primary" routerLink="/">Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo" (click)="goHome()">
+        <i class="fas fa-book-open"></i>
+        <span>BookReviews</span>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-link" (click)="goHome()">
+          <i class="fas fa-home"></i>
+          Inicio
+        </a>
+
+        <div class="nav-actions" *ngIf="isAuthenticated(); else authButtons">
+          <span class="user-welcome">Hola, {{currentUser?.userName}}</span>
+          <button class="btn btn-secondary" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Cerrar Sesión
+          </button>
+        </div>
+
+        <ng-template #authButtons>
+          <div class="nav-actions">
+            <button class="btn btn-secondary" (click)="goToLogin()">
+              <i class="fas fa-sign-in-alt"></i>
+              Iniciar Sesión
+            </button>
+            <button class="btn btn-primary" (click)="goToRegister()">
+              <i class="fas fa-user-plus"></i>
+              Registrarse
+            </button>
+          </div>
+        </ng-template>
+      </nav>
+    </div>
+  </div>
+</header>
+

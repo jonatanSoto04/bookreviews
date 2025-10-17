@@ -1,0 +1,65 @@
+<div class="book-list-container">
+  <div class="search-section">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input
+        type="text"
+        class="form-control search-input"
+        placeholder="Buscar libros por título, autor o categoría..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      >
+    </div>
+
+    <div class="categories">
+      <button
+        *ngFor="let category of categories"
+        class="category-btn"
+        [class.active]="selectedCategory === category"
+        (click)="filterByCategory(category)"
+      >
+        {{category}}
+      </button>
+      <button
+        class="category-btn clear"
+        (click)="clearFilters()"
+      >
+        Todos
+      </button>
+    </div>
+  </div>
+
+  <div class="books-grid" *ngIf="filteredBooks.length > 0; else noBooks">
+    <div
+      class="book-card"
+      *ngFor="let book of filteredBooks"
+      (click)="viewBook(book.id)"
+    >
+      <div class="book-cover">
+        <img [src]="book.coverImageUrl || 'assets/default-book-cover.jpg'" [alt]="book.title">
+      </div>
+      <div class="book-info">
+        <h3 class="book-title">{{book.title}}</h3>
+        <p class="book-author">{{book.author}}</p>
+        <p class="book-category">{{book.category}}</p>
+        <div class="book-rating">
+          <div class="rating-stars">
+            <i class="fas fa-star" *ngFor="let star of getStars(book.averageRating)"></i>
+          </div>
+          <span class="rating-text">
+            {{book.averageRating | number:'1.1-1'}} ({{book.reviewCount}} reseñas)
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noBooks>
+    <div class="no-books">
+      <i class="fas fa-book-open fa-3x"></i>
+      <h3>No se encontraron libros</h3>
+      <p>Intenta con otros términos de búsqueda o categorías</p>
+    </div>
+  </ng-template>
+</div>
+
